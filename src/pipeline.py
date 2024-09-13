@@ -4,20 +4,23 @@ from diffusers import StableDiffusionXLPipeline
 from pipelines.models import TextToImageRequest
 from torch import Generator
 
+from onediffx.deep_cache import StableDiffusionXLPipeline as StableDiffusionXLPipelineFaster
+from onediffx import compile_pipe, load_pipe
 
-def load_pipeline() -> StableDiffusionXLPipeline:
-    pipeline = StableDiffusionXLPipeline.from_pretrained(
+def load_pipeline() -> StableDiffusionXLPipelineFaster:
+    pipeline = StableDiffusionXLPipelineFaster.from_pretrained(
         "./models/newdream-sdxl-20",
         torch_dtype=torch.float16,
         local_files_only=True,
     ).to("cuda")
-
+    pipeline = compile_pipe(pipeline)
+    load_pipe(pipeline, dir="models/newdream-sdxl-20-optimized")
     pipeline(prompt="")
 
     return pipeline
 
 
-def infer(request: TextToImageRequest, pipeline: StableDiffusionXLPipeline) -> Image:
+def infer(request: TextToImageRequest, pipeline: StableDiffusionXLPipelineFaster) -> Image:
     generator = Generator(pipeline.device).manual_seed(request.seed) if request.seed else None
 
     return pipeline(
@@ -26,4 +29,5 @@ def infer(request: TextToImageRequest, pipeline: StableDiffusionXLPipeline) -> I
         width=request.width,
         height=request.height,
         generator=generator,
+        cache_interval=2, cache_layer_id=0, cache_block_id=0
     ).images[0]

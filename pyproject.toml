@@ -8,11 +8,17 @@ description = "An edge-maxxing model submission for the 4090 newdream contest"
 requires-python = ">=3.10,<3.11"
 version = "1.0.0"
 dependencies = [
-    "diffusers==0.30.2",
-    "transformers==4.41.2",
+    "pillow==10.3.0",
+    "numpy==1.26.4",
+    "torch==2.3.1",
+    "torchvision==0.18.1",
+    "opencv-python==4.8.0.74",
+    "diffusers==0.26.3",
+    "transformers==4.27.1",
     "accelerate==0.31.0",
     "omegaconf==2.3.0",
     "edge-maxxing-pipelines @ git+https://github.com/womboai/edge-maxxing#subdirectory=pipelines",
+    "onediffx @ git+https://github.com/siliconflow/onediff#subdirectory=onediff_diffusers_extensions"
 ]
 
 [project.scripts]
