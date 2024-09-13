@@ -2,3 +2,6 @@
 	path = models/newdream-sdxl-20
 	url = https://huggingface.co/stablediffusionapi/newdream-sdxl-20
 	branch = main
+[submodule "models/newdream-sdxl-20-optimized"]
+	path = models/newdream-sdxl-20-optimized
+	url = https://huggingface.co/TorRient/newdream-sdxl-20-optimized
