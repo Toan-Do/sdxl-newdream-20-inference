@@ -13,6 +13,7 @@ def load_pipeline() -> StableDiffusionXLPipelineFaster:
         torch_dtype=torch.float16,
         local_files_only=True,
     ).to("cuda")
+    pipeline = compile_pipe(pipeline)
     load_pipe(pipeline, dir="models/newdream-sdxl-20-optimized")
     pipeline(prompt="", cache_interval=2, cache_layer_id=0, cache_block_id=0)
 
